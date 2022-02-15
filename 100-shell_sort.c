@@ -6,22 +6,26 @@
  */
 void shell_sort(int *array, size_t size)
 {
-	size_t interval = 0, i = 0, j = 0;
-	int elem = 0;
+	size_t gap = 1, in = 0, out = 0;
+	int temp = 0;
 
-	while (interval < ((size - 1) / 9))
-		interval = interval * 3 + 1;
+	while ((gap <= size / 3))
+		gap = gap * 3 + 1;
 
-	while (interval >= 1)
+	while (gap > 0)
 	{
-		for (i = interval; i < size; i++)
+		for (out = gap; out < size; out++)
 		{
-			elem = array[i];
-			for (j = i - interval; elem < array[j]; j = j - interval)
-				array[j + interval] = array[j];
-			array[j + interval] = elem;
+			temp = array[out];
+			in = out;
+			while (in > gap - 1 && array[in - gap] >= temp)
+			{
+				array[in] = array[in - gap];
+				in = in - gap;
+			}
+			array[in] = temp;
 		}
-		interval = interval / 3;
+		gap = (gap - 1) / 3;
 		print_array(array, size);
 	}
 }
