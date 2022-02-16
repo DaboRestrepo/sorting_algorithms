@@ -17,26 +17,25 @@ void swap(int *elem1, int *elem2)
  * @array: the giving array.
  * @low: the lowest index.
  * @high: the highiest index.
- * @first_size: the original array's size.
+ * @size: the original array's size.
  * Return: the partition elemnt.
  */
-int partition(int *array, int low, int high, size_t first_size)
+int partition(int *array, int low, int high, size_t size)
 {
-	int pivot_value = array[high], i = low, j;
+	int pivot_value = array[high], i = low - 1, j;
 
-	for (j = low; j < high; j++)
+	for (j = low; j <= high; j++)
 	{
-		if (array[j] < pivot_value)
+		if (array[j] <= pivot_value)
 		{
-			swap(&array[i], &array[j]);
-			if (i != j)
-				print_array(array, first_size);
 			i++;
+			if (i != j)
+			{
+				swap(&array[i], &array[j]);
+				print_array(array, size);
+			}
 		}
 	}
-	swap(&array[i], &array[high]);
-	if (i != j)
-		print_array(array, first_size);
 	return (i);
 }
 /**
@@ -44,17 +43,17 @@ int partition(int *array, int low, int high, size_t first_size)
  * @array: the giving array.
  * @low: the lowest index.
  * @high: the highiest index.
- * @first_size: the original array's size.
+ * @size: the original array's size.
  */
-void quicksort_rec(int *array, int low, int high, size_t first_size)
+void quicksort_rec(int *array, int low, int high, size_t size)
 {
 	int pivot;
 
 	if (low < high)
 	{
-		pivot = partition(array, low, high, first_size);
-		quicksort_rec(array, low, pivot - 1, first_size);
-		quicksort_rec(array, pivot + 1, high, first_size);
+		pivot = partition(array, low, high, size);
+		quicksort_rec(array, low, pivot - 1, size);
+		quicksort_rec(array, pivot + 1, high, size);
 	}
 }
 /**
@@ -64,9 +63,7 @@ void quicksort_rec(int *array, int low, int high, size_t first_size)
  */
 void quick_sort(int *array, size_t size)
 {
-	size_t first_size = size;
-
-	if (array == NULL || size < 2)
+	if (!array || size < 2)
 		return;
-	quicksort_rec(array, 0, size - 1, first_size);
+	quicksort_rec(array, 0, size - 1, size);
 }
