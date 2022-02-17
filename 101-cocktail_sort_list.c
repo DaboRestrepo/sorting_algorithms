@@ -30,32 +30,34 @@ void cocktail_sort_list(listint_t **list)
 
 	if (!list)
 		return;
+	current = *list;
 	while (flag == 1)
 	{
 		flag = 0;
-		for (current = *list; current != NULL; current = current->next)
+		while (current->next != NULL)
 		{
-			while (current->next && current->n > current->next->n)
+			if (current->n > current->next->n)
 			{
 				swap(current, current->next);
 				print_list(*list);
 				flag = 1;
 			}
+			else
+				current = current->next;
 		}
 		if (flag == 0)
 			break;
 		flag = 0;
-		current = current->prev;
-		for (current = current->prev; current != NULL; current = current->prev)
+		while (current->prev != NULL)
 		{
-			printf("%d\n", flag);
-			while (current->prev && current->n < current->prev->n)
+			if (current->prev->n > current->n)
 			{
-				swap(current, current->prev);
+				swap(current->prev, current);
 				print_list(*list);
 				flag = 1;
 			}
+			else
+				current = current->prev;
 		}
 	}
 }
-
